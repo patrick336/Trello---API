@@ -33,6 +33,7 @@
     position: absolute;
     right: 5px;
     top: 5px;
+    display: none;
 }
 .close:hover,
 .close:focus {
@@ -63,6 +64,7 @@ form {
     max-width: 400px;
     width:100%;
     margin: 10px auto;
+    padding: 10px;
 }
 label {
     display: block !important;

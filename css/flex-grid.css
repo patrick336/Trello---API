@@ -143,6 +143,9 @@
     .create-column {
         width: 60%;
     }
+    .close {
+	    display: block;
+    }
 }
 @media (min-width:768px) {
     .col-sm-1 {

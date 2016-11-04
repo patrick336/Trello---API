@@ -14,24 +14,32 @@ function Card(id, name, kanban_id) {
         var cardDescription = $('<p class="card-description"></p>');
         cardChangeName.click(function (e) {
             e.preventDefault();
+            
             $('#myModal').css({
                 'display': 'block'
             });
+            
             var input = $('#name');
             var form = $('#form');
+            
+            
+            
             form.on('submit', function (e) {
                 e.preventDefault();
+                var field = input.val();
+                if(field.length == 0 ) field='Nie podano nazwy';
+                
                 $.ajax({
                     url: baseUrl + '/card/' + self.id, 
                     method: 'PUT', 
                     data: {
                         id: self.id, 
-                        name: input.val(), 
+                        name: field, 
                         bootcamp_kanban_column_id: self.kanban_id
                     }, 
                     success: function (response) {
                         form.off('submit');
-                        cardDescription.text(input.val());
+                        cardDescription.text(field);
                         input.val('');
                         $('#myModal').css({
                             'display': 'none'

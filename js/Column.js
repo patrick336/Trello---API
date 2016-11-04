@@ -17,19 +17,26 @@ function Column(id, name) {
                 'display': 'block'
             });
             var input = $('#name');
+         
             var form = $('#form');
             form.on('submit', function (e) {
+                    
                 e.preventDefault();
+                var field = input.val();
+                if(field.length == 0 ) field='Nie podano nazwy';
+                
+                    
+                    
                 $.ajax({
                     url: baseUrl + '/column/' + self.id,
                     method: 'PUT', 
                     data: {
-                        name: input.val(), 
+                        name: field, 
                         id: self.id
                     }, 
                     success: function (response) {
                         form.off('submit');
-                        columnTitle.text(input.val());
+                        columnTitle.text(field);
                         input.val('');
                         $('#myModal').css({
                             'display': 'none'
@@ -46,19 +53,36 @@ function Column(id, name) {
             self.deleteColumn();
         });
         columnAddCard.click(function (event) {
-            var cardName = prompt('Wpisz nazwę karty');
+            
             event.preventDefault();
-            $.ajax({
-                url: baseUrl + '/card', 
-                method: 'POST', 
-                data: {
-                    name: cardName, 
-                    bootcamp_kanban_column_id: self.id
-                }, 
-                success: function (response) {
-                    var card = new Card(response.id, cardName, self.id);
-                    self.createCard(card);
-                }
+            $('#myModal').css({
+                'display': 'block'
+            });
+            
+            var input = $('#name');
+            var form = $('#form');
+            
+            form.on('submit',function(e){
+                e.preventDefault();
+                
+                
+                $.ajax({
+                    url: baseUrl + '/card', 
+                    method: 'POST', 
+                    data: {
+                        name: input.val(), 
+                        bootcamp_kanban_column_id: self.id
+                    }, 
+                    success: function (response) {
+                        form.off('submit');
+                        var card = new Card(response.id, input.val(), self.id);
+                        self.createCard(card);
+                        input.val('');
+                        $('#myModal').css({
+                            'display': 'none'
+                        });
+                    }
+                });
             });
         });
         column.append(columnTitle).append(columnChangeName).append(columnDelete).append(columnAddCard).append(columnCardList);
